@@ -28,6 +28,7 @@ echo ">> Installing direnv"
 ## Install direnv, allows you to load and unload environment variables depending on the current directory.
 curl -sfL https://direnv.net/install.sh | bash
 
+echo ">> Configuring starship"
 mkdir -p /root/.config
 starship preset bracketed-segments > ~/.config/starship.toml
 
