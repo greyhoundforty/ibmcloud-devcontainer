@@ -35,7 +35,7 @@ echo ">> Configuring starship"
 mkdir -p /root/.config
 starship preset bracketed-segments > ~/.config/starship.toml
 
-chsh -s `which bash`
+#chsh -s `which bash`
 
 echo ">> Installing TFSwitch"
 curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
