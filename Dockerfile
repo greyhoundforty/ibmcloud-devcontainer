@@ -7,7 +7,9 @@ COPY install-ibmcloud.sh install-ibmcloud.sh
 RUN ./install-base.sh
 RUN  ./install-ibmcloud.sh
 RUN rm -f install-base.sh install-ibmcloud.sh
-
+# RUN useradd -m -g users -G wheel -s /bin/bash dev
+# RUN chsh -s /bin/bash dev
+RUN sed -i -e "s/bin\/ash/bin\/bash/" /etc/passwd
 RUN mkdir /app
 
 FROM scratch
