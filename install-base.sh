@@ -21,21 +21,11 @@ apk add --no-cache \
   openvpn \
   packer \
   sudo \
-  tcpdump \
-  starship \
-  shadow 
+  tcpdump 
 
 echo ">> Installing direnv"
 ## Install direnv, allows you to load and unload environment variables depending on the current directory.
 curl -sfL https://direnv.net/install.sh | bash
-
-# Install starship 
-
-echo ">> Configuring starship"
-mkdir -p /root/.config
-starship preset bracketed-segments > ~/.config/starship.toml
-
-#chsh -s `which bash`
 
 echo ">> Installing TFSwitch"
 curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
