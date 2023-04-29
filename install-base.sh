@@ -2,31 +2,15 @@ set -e
 export SHELLOPTS
 
 echo ">> Installing base dependencies..."
-apk add --no-cache \
-  ansible \
-  bash \
-  binutils \
+apt-get install -y \
+  apt-transport-https \
   ca-certificates \
-  coreutils \
   curl \
-  docker-cli \
-  gettext \
   git \
   grep \
   jq \
-  libc6-compat \
-  make \
-  openssl \
-  openssh-client \
-  openvpn \
-  packer \
-  sudo \
-  tcpdump 
 
-echo ">> Installing direnv"
-## Install direnv, allows you to load and unload environment variables depending on the current directory.
-curl -sfL https://direnv.net/install.sh | bash
-
+# Terraform
 echo ">> Installing TFSwitch"
 curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
 
