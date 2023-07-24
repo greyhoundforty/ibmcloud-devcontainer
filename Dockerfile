@@ -1,22 +1,41 @@
-FROM ubuntu:22.04 as builder
+FROM ubuntu:focal
+ENV DEBIAN_FRONTEND noninteractive
+ENV TF_VERSION 1.5.3
+ 
+ENV pip_packages "ansible softlayer"
+ 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        apt-transport-https \
+        gcc \
+        ca-certificates \
+        curl \
+        git \
+        gnupg \
+        jq \
+        libssl-dev \
+        lsb-release \
+        openssh-client \
+        python3-dev \
+        python3-gssapi \
+        python3-pip \
+        python3-netaddr \
+        python3-jmespath \
+        python3-setuptools \
+        python3-wheel \
+        unzip \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
+    && apt-get clean
+ 
+RUN pip install --upgrade pip \
+    && pip install $pip_packages
 
-COPY install-base.sh install-base.sh
-# COPY install-ibmcloud.sh install-ibmcloud.sh
+RUN curl -O https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip \
+    && unzip terraform_${TF_VERSION}_linux_amd64.zip -d /usr/bin \
+    && rm -f terraform_${TF_VERSION}_linux_amd64.zip \
+    && chmod +x /usr/bin/terraform
 
-RUN ./install-base.sh
-# RUN  ./install-ibmcloud.sh
-RUN rm -f install-base.sh 
-# RUN useradd -m -g users -G wheel -s /bin/bash dev
-# RUN chsh -s /bin/bash dev
-# RUN sed -i -e "s/bin\/ash/bin\/bash/" /etc/passwd
-RUN mkdir /app
+RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
 
-FROM scratch
-COPY --from=builder / /
-COPY .bashrc /root
-COPY .bash_aliases /root
-VOLUME /app
-ENV TERM xterm-256color
-ENV LANG en_US.UTF-8
-WORKDIR /app
-ENTRYPOINT [ "bash", "-l" ]
+CMD    ["/bin/bash"]
