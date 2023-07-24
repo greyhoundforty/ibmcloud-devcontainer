@@ -35,13 +35,41 @@ tar zxvf openshift-client-linux.tar.gz
 mv oc /usr/local/bin/oc
 rm -rf README.md kubectl openshift-client-linux.tar.gz
 
-# MC for S3
-echo ">> Installing minio"
-wget -O /usr/local/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
-chmod +x /usr/local/bin/mc
-
 # Enable GIT for all directories to avoid prompt like `fatal: unsafe repository ('/app' is owned by someone else)`
 git config --global --add safe.directory '*'
+
+# IBM Cloud CLI
+echo ">> Installing ibmcloud cli"
+curl -fsSL https://clis.cloud.ibm.com/install/linux > /tmp/bxinstall.sh
+sh /tmp/bxinstall.sh
+rm /tmp/bxinstall.sh
+
+# IBM Cloud CLI plugins
+echo ">> Installing ibmcloud plugins"
+ibmcloud_plugins=( \
+  code-engine \
+  cloud-databases \
+  cloud-dns-services \
+  cloud-functions \
+  cloud-internet-services \
+  cloud-object-storage \
+  container-registry \
+  container-service \
+  vpc-infrastructure \
+  schematics \
+  tg \
+)
+for plugin in "${ibmcloud_plugins[@]}"
+do
+  ibmcloud plugin install $plugin -f -r "IBM Cloud"
+done
+
+ibmcloud config --check-version=false
+
+rm -rf /root/.bluemix/tmp /tmp/*
+
+# Test snap install
+snap install --edge starship
 
 # Clean up
 rm -rf /var/cache/apk/*
