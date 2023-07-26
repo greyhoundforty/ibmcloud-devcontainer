@@ -15,7 +15,6 @@ RUN apt-get update \
         python3-jmespath \
         python3-setuptools \
         python3-wheel \
-
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
@@ -28,8 +27,13 @@ RUN curl -O https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${T
     && rm -f terraform_${TF_VERSION}_linux_amd64.zip \
     && chmod +x /usr/bin/terraform
 
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+    && mv kubectl /usr/bin/kubectl \
+    && chmod +x /usr/bin/kubectl
+
 RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
 
+RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
 USER vscode
 
