@@ -41,9 +41,12 @@ RUN curl -O https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${T
 
 RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
 
-RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
 
 USER vscode
+
+RUN export BINDIR=/home/vscode/.local/bin && \
+    curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
+
 USER root
 
 COPY post-start.sh /usr/local/bin/post-start
