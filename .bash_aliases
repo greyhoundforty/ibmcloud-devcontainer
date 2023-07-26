@@ -1,8 +1,0 @@
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias ic='ibmcloud'
-alias gaa='git add --all'
-alias gcm='git commit -m'
-alias gpl='git pull'
-alias gps='git push'
