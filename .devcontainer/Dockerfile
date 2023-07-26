@@ -8,13 +8,11 @@ ENV pip_packages "ansible softlayer"
 RUN apt-get update \
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y --no-install-recommends \
-        python3-dev \
-        python3-gssapi \
+        jq \
         python3-pip \
-        python3-netaddr \
-        python3-jmespath \
-        python3-setuptools \
         python3-wheel \
+        unzip \
+        make \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
@@ -40,7 +38,14 @@ USER vscode
 RUN export BINDIR=/home/vscode/.local/bin && \
     curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
 
-USER root
+# # RUN curl -sS https://starship.rs/install.sh | sh
+RUN curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir /home/vscode/.local/bin -f
+COPY bashrc /home/vscode/.bashrc 
+COPY starship.toml /home/vscode/.config/starship.toml
+# 
 
+USER root
+RUN chown -R vscode:vscode /home/vscode/.config/
 COPY post-start.sh /usr/local/bin/post-start
 RUN chmod +x /usr/local/bin/post-start
+
