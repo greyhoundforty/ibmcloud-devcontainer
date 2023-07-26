@@ -8,16 +8,6 @@ ENV pip_packages "ansible softlayer"
 RUN apt-get update \
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y --no-install-recommends \
-        apt-transport-https \
-        gcc \
-        ca-certificates \
-        curl \
-        git \
-        gnupg \
-        jq \
-        libssl-dev \
-        lsb-release \
-        openssh-client \
         python3-dev \
         python3-gssapi \
         python3-pip \
@@ -25,8 +15,7 @@ RUN apt-get update \
         python3-jmespath \
         python3-setuptools \
         python3-wheel \
-        unzip \
-        make \
+
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
